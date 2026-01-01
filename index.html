@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chá Revelação • Confirmação de Presença</title>
+
+  <!-- Fonte cursiva estilo “Milena ou Júlio” -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --verde: #6f9a61;
+      --verde-escuro:#5f8553;
+      --texto: #2f3b2a;
+      --muted: #6b7764;
+      --borda: rgba(90, 110, 80, 0.28);
+      --card: rgba(255,255,255,0.93);
+      --shadow: 0 24px 60px rgba(0,0,0,0.14);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--texto);
+      background: #eaf3da;
+    }
+
+    /* FUNDO */
+    .page-bg{
+      min-height: 100svh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding: 18px;
+      background:
+        url("convite-bg.png") center top / min(460px, 92vw) auto no-repeat,
+        url("convite-bg.png") center top / cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(234,243,218,0.55), rgba(255,241,199,0.55));
+      pointer-events:none;
+    }
+
+    .stage{
+      position: relative;
+      z-index: 1;
+      width: min(460px, 92vw);
+      display: grid;
+      place-items: center;
+    }
+
+    /* URSO */
+    .bear{
+      position: absolute;
+      right: -26px;
+      top: 22px;
+      width: clamp(150px, 30vw, 230px);
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 18px 22px rgba(0,0,0,0.18));
+    }
+
+    .card{
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(90,110,80,0.18);
+    }
+
+    /* TÍTULOS */
+    .title{
+      text-align:center;
+      margin: 6px 0 0;
+      font-weight: 900;
+      font-size: clamp(26px, 5vw, 36px);
+      color: var(--verde);
+    }
+
+    .subtitle{
+      text-align:center;
+      margin: 2px 0 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(95,111,86,0.95);
+    }
+
+    /* BLOCO DO EVENTO */
+    .event{
+      text-align:center;
+      margin-bottom: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(233,242,215,0.65), rgba(255,241,199,0.55));
+      border: 1px solid rgba(90,110,80,0.18);
+    }
+
+    /* NOME COM FONTE SCRIPT */
+    .event .names{
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(30px, 6.5vw, 46px);
+      line-height: 1.1;
+      color: var(--verde-escuro);
+      margin-bottom: 6px;
+    }
+
+    .event .line{
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.3rem;
+    }
+
+    .field { margin-bottom: 12px; }
+
+    input{
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--borda);
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus{
+      border-color: rgba(111,154,97,0.95);
+      box-shadow: 0 0 0 3px rgba(111,154,97,0.18);
+    }
+
+    .companions{
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #eef6df, #fff7d9);
+      border: 1px solid rgba(90,110,80,0.22);
+    }
+
+    .companions h3{
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .row{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px dashed rgba(0,0,0,0.14);
+      gap: 10px;
+    }
+
+    .row:first-of-type{ border-top:none; }
+
+    .label{ font-weight: 900; font-size: 14px; }
+    .sub{ font-size: 12px; color: var(--muted); font-weight: 700; }
+
+    .counter{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .counter button{
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(90,110,80,0.25);
+      background: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .counter span{
+      min-width: 22px;
+      text-align:center;
+      font-weight: 900;
+    }
+
+    .actions{
+      margin-top: 16px;
+      display:flex;
+      justify-content:center;
+    }
+
+    button.submit{
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+      background: var(--verde);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 16px 30px rgba(111,154,97,0.35);
+    }
+
+    .msg{
+      margin-top: 10px;
+      text-align:center;
+      font-weight: 800;
+      color: #5f6f56;
+      min-height: 20px;
+    }
+
+    /* 🔽 SUA ALTERAÇÃO (urso maior no mobile) */
+    @media (max-width: 420px){
+      .bear{
+        right: -30px;
+        top: 18px;
+        width: 170px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-bg">
+    <div class="stage">
+
+      <img class="bear" src="urso-baloes.png" alt="Urso com balões">
+
+      <main class="card">
+        <div class="title">Chá Revelação</div>
+        <div class="subtitle">Confirmação de presença</div>
+
+        <div class="event">
+          <div class="names">Jasmin ou Isac</div>
+          <div class="line">Sábado, 17 de janeiro às 16:00h</div>
+          <div class="line">Rua Cassimiro de Abreu, 171</div>
+          <div class="line">Maracanã, Montes Claros</div>
+        </div>
+
+        <form id="form">
+          <div class="field">
+            <input id="nome" placeholder="nome e sobrenome" required>
+          </div>
+
+          <div class="field">
+            <input id="email" type="email" placeholder="e-mail" required>
+          </div>
+
+          <div class="field">
+            <input id="celular" placeholder="celular" required>
+          </div>
+
+          <div class="companions">
+            <h3>Acompanhantes (sem contar você)</h3>
+
+            <div class="row">
+              <div class="label">Adultos</div>
+              <div class="counter">
+                <button type="button" onclick="alterar('adultos', -1)">−</button>
+                <span id="adultos">0</span>
+                <button type="button" onclick="alterar('adultos', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <div class="label">Crianças maiores</div>
+                <div class="sub">De 6 a 10 anos</div>
+              </div>
+              <div class="counter">
+                <button type="button" onclick="alterar('maiores', -1)">−</button>
+                <span id="maiores">0</span>
+                <button type="button" onclick="alterar('maiores', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <div class="label">Crianças pequenas</div>
+                <div class="sub">De 0 a 5 anos</div>
+              </div>
+              <div class="counter">
+                <button type="button" onclick="alterar('pequenas', -1)">−</button>
+                <span id="pequenas">0</span>
+                <button type="button" onclick="alterar('pequenas', 1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="submit" id="submit">confirmar presença</button>
+          </div>
+
+          <div class="msg" id="msg"></div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const URL = "https://script.google.com/macros/s/AKfycbwo3oOMtFaHXbHIRS9S907U9y0xe4ftTUDsNpvi1ez54wqUCwzPSTBFthU-HLWm4to4/exec";
+
+    function alterar(id, delta) {
+      const el = document.getElementById(id);
+      let v = parseInt(el.innerText || "0", 10);
+      el.innerText = Math.max(0, v + delta);
+    }
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("submit");
+      const msg = document.getElementById("msg");
+      btn.disabled = true;
+      msg.textContent = "";
+
+      const payload = {
+        nome: nome.value.trim(),
+        email: email.value.trim(),
+        celular: celular.value.trim(),
+        adultos: adultos.innerText,
+        criancasMaiores: maiores.innerText,
+        criancasPequenas: pequenas.innerText,
+      };
+
+      try {
+        const res = await fetch(URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        msg.textContent = data.ok ? "Presença confirmada! 💛" : "Erro ao enviar.";
+        if (data.ok) form.reset();
+      } catch {
+        msg.textContent = "Erro ao enviar.";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
